@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>作品 · 像素笔记</title>
+    <meta
+      name="description"
+      content="像素风小站的作品橱窗：网页模板、小工具、小游戏，全部用 HTML、CSS、JavaScript 手写。"
+    />
+    <meta name="theme-color" content="#e7e3dc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="作品 · 像素笔记" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      (function () {
+        var saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("pixel-morandi") || "{}") || {};
+        } catch (e) {
+          saved = {};
+        }
+        var theme =
+          saved.theme ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dusk"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        if (saved.text) document.documentElement.setAttribute("data-text", saved.text);
+      })();
+    </script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body data-page="projects">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="progress" data-progress></div>
+    <canvas class="sparkle-layer" data-sparkles aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html">
+          <span class="brand__mark">
+            <img src="assets/img/mark.svg" width="48" height="32" alt="" />
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <span class="brand__tag" data-bind="owner.role">像素爱好者 · 前端玩家</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" data-nav aria-label="主导航"></nav>
+
+        <div class="header-tools">
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+            <span class="px-icon px-icon--sun" data-theme-glyph></span>
+          </button>
+          <button
+            class="icon-btn nav-toggle"
+            type="button"
+            data-nav-toggle
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="打开菜单"
+          >
+            <span class="px-icon px-icon--menu"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-head">
+        <div class="wrap">
+          <p class="eyebrow">WORKS</p>
+          <h1>作品橱窗</h1>
+          <p class="lead">
+            下面这些是示例内容，用来演示版式——换成你自己的项目即可。封面不是图片，而是字符画出来的像素图，
+            改 data.js 里的字符就能换图案。
+          </p>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="filter-bar" data-filters role="group" aria-label="按类型筛选"></div>
+          <div class="grid grid--3" data-projects="all"></div>
+          <div class="empty" data-projects-empty hidden>这个分类下暂时还没有作品。</div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="panel brackets panel--flat">
+            <h2 style="margin-bottom: 12px">想看看别的东西？</h2>
+            <p class="lead">
+              关于这个小站是怎么搭起来的、用了哪些字体和颜色，都写在关于页里。
+            </p>
+            <div class="row">
+              <a class="btn" href="about.html">
+                <span>关于这个站</span>
+                <span class="btn__arrow" aria-hidden="true">▸</span>
+              </a>
+              <a class="btn btn--ghost" href="contact.html">来聊聊</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__top">
+          <div class="site-footer__brand">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <p data-bind="owner.footerNote">用像素和莫兰迪色搭建。</p>
+          </div>
+          <div>
+            <div class="footer-title">导航</div>
+            <ul class="footer-links" data-footer-links></ul>
+          </div>
+          <div>
+            <div class="footer-title">找到我</div>
+            <ul class="footer-links" data-footer-social></ul>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <span
+            >© <span data-year>2026</span> <span data-bind="owner.name">cxp</span> ·
+            <span data-handle>@gitbycxp</span></span
+          >
+          <div class="footer-controls">
+            <div class="control-group">
+              <span class="control-group__label">主题</span>
+              <button class="toggle-btn" type="button" data-theme-toggle aria-label="切换主题">
+                <span data-theme-name>浅色</span>
+              </button>
+            </div>
+            <div class="control-group">
+              <span class="control-group__label">显示</span>
+              <button class="toggle-btn" type="button" data-text-toggle aria-pressed="false">
+                字号：标准
+              </button>
+              <button class="toggle-btn" type="button" data-crt-toggle aria-pressed="false">
+                扫描线
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

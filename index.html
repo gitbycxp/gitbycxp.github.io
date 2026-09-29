@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>像素笔记 · 一个像素风的莫兰迪小站</title>
+    <meta
+      name="description"
+      content="一个用 HTML、CSS、JavaScript 手写的像素风个人小站，配色取自莫兰迪。零依赖、零框架、零追踪。"
+    />
+    <meta name="author" content="cxp" />
+    <meta name="theme-color" content="#e7e3dc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="像素笔记 · 像素风 + 莫兰迪" />
+    <meta
+      property="og:description"
+      content="手写的像素风小站：方格、台阶、低饱和色，还有一个会眨眼的小人。"
+    />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      /* 在渲染前把主题定下来，避免刷新时闪白 */
+      (function () {
+        var saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("pixel-morandi") || "{}") || {};
+        } catch (e) {
+          saved = {};
+        }
+        var theme =
+          saved.theme ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dusk"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        if (saved.text) document.documentElement.setAttribute("data-text", saved.text);
+      })();
+    </script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body data-page="home">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="progress" data-progress></div>
+    <canvas class="sparkle-layer" data-sparkles aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html">
+          <span class="brand__mark">
+            <img src="assets/img/mark.svg" width="48" height="32" alt="" />
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <span class="brand__tag" data-bind="owner.role">像素爱好者 · 前端玩家</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" data-nav aria-label="主导航"></nav>
+
+        <div class="header-tools">
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+            <span class="px-icon px-icon--sun" data-theme-glyph></span>
+          </button>
+          <button
+            class="icon-btn nav-toggle"
+            type="button"
+            data-nav-toggle
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="打开菜单"
+          >
+            <span class="px-icon px-icon--menu"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 首屏 -->
+      <section class="hero">
+        <div class="wrap hero__inner">
+          <div>
+            <p class="eyebrow" data-bind="hero.eyebrow">HELLO, WORLD</p>
+            <h1 class="hero__title">
+              <span class="hero__title-top" data-bind="hero.titleTop">PIXEL</span>
+              <span class="hero__title-bottom" data-bind="hero.titleBottom">莫兰迪小站</span>
+            </h1>
+            <p class="hero__lead lead" data-bind="hero.lead">
+              把方块拼成世界，把颜色调成雾。
+            </p>
+            <div class="hero__actions">
+              <a class="btn" href="projects.html" data-bind-href="hero.primary.href">
+                <span data-bind="hero.primary.label">看看作品</span>
+                <span class="btn__arrow" aria-hidden="true">▸</span>
+              </a>
+              <a class="btn btn--ghost" href="about.html" data-bind-href="hero.secondary.href">
+                <span data-bind="hero.secondary.label">关于我</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero__art" data-reveal>
+            <div class="hero__art-inner">
+              <img
+                class="scene scene--day"
+                src="assets/img/scene-day.svg"
+                width="320"
+                height="220"
+                alt="像素画：山谷、云朵、太阳和一个站在湖边的小人"
+              />
+              <img
+                class="scene scene--night"
+                src="assets/img/scene-night.svg"
+                width="320"
+                height="220"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <span class="hero__badge" aria-hidden="true">8-BIT</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 走马灯 -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track" data-marquee></div>
+      </div>
+
+      <!-- 数字条 -->
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="stats" data-stats data-reveal></div>
+        </div>
+      </section>
+
+      <!-- 关于 -->
+      <section class="section" id="about">
+        <div class="wrap">
+          <div class="about__grid">
+            <div class="portrait" data-reveal>
+              <div class="portrait__frame" data-portrait></div>
+              <div class="portrait__cap">
+                <span data-bind="owner.name">cxp</span>
+                <span>128 × 128 PX</span>
+              </div>
+            </div>
+
+            <div>
+              <p class="eyebrow" data-bind="about.eyebrow">ABOUT</p>
+              <h2 data-bind="about.title">关于这个小站</h2>
+              <div class="prose" data-about-text></div>
+            </div>
+          </div>
+
+          <div class="grid grid--3" style="margin-top: 48px" data-about-cards></div>
+        </div>
+      </section>
+
+      <!-- 技能 -->
+      <section class="section" id="skills">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow" data-bind="skills.eyebrow">SKILLS</p>
+            <h2 data-bind="skills.title">工具箱熟练度</h2>
+            <p class="lead" data-bind="skills.lead"></p>
+          </div>
+          <div class="grid grid--2" data-skills></div>
+        </div>
+      </section>
+
+      <!-- 精选作品 -->
+      <section class="section" id="works">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow" data-bind="projects.eyebrow">WORKS</p>
+            <h2 data-bind="projects.title">作品橱窗</h2>
+            <p class="lead" data-bind="projects.lead"></p>
+          </div>
+
+          <div class="grid grid--3" data-projects="featured"></div>
+
+          <div class="row" style="margin-top: 40px; justify-content: space-between">
+            <a class="btn btn--ghost" href="projects.html">
+              <span>查看全部作品</span>
+              <span class="btn__arrow" aria-hidden="true">▸</span>
+            </a>
+            <span class="muted">共 <span data-project-count>0</span> 件</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最近在忙 -->
+      <section class="section" id="now">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow" data-bind="focus.eyebrow">NOW</p>
+            <h2 data-bind="focus.title">最近在忙的事</h2>
+          </div>
+
+          <div class="grid grid--2" style="align-items: start">
+            <div class="stack" data-focus></div>
+            <div data-terminal data-reveal></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 联系 -->
+      <section class="section">
+        <div class="wrap">
+          <div class="panel panel--accent" data-reveal>
+            <div class="row" style="justify-content: space-between; gap: 32px">
+              <div style="max-width: 44ch">
+                <p class="eyebrow" data-bind="contact.eyebrow">CONTACT</p>
+                <h2 data-bind="contact.title">来打个招呼</h2>
+                <p class="lead" style="margin: 0" data-bind="contact.lead"></p>
+              </div>
+              <div class="row">
+                <button
+                  class="btn"
+                  type="button"
+                  data-copy="snowwolf.sakura@gmail.com"
+                >
+                  复制邮箱
+                </button>
+                <a class="btn btn--ghost" href="contact.html">更多联系方式</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__top">
+          <div class="site-footer__brand">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <p data-bind="owner.footerNote">用像素和莫兰迪色搭建。</p>
+          </div>
+          <div>
+            <div class="footer-title">导航</div>
+            <ul class="footer-links" data-footer-links></ul>
+          </div>
+          <div>
+            <div class="footer-title">找到我</div>
+            <ul class="footer-links" data-footer-social></ul>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <span
+            >© <span data-year>2026</span> <span data-bind="owner.name">cxp</span> ·
+            <span data-handle>@gitbycxp</span></span
+          >
+          <div class="footer-controls">
+            <div class="control-group">
+              <span class="control-group__label">主题</span>
+              <button class="toggle-btn" type="button" data-theme-toggle aria-label="切换主题">
+                <span data-theme-name>浅色</span>
+              </button>
+            </div>
+            <div class="control-group">
+              <span class="control-group__label">显示</span>
+              <button class="toggle-btn" type="button" data-text-toggle aria-pressed="false">
+                字号：标准
+              </button>
+              <button class="toggle-btn" type="button" data-crt-toggle aria-pressed="false">
+                扫描线
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

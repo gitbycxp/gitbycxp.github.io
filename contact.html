@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>联系 · 像素笔记</title>
+    <meta name="description" content="联系方式：邮箱与 GitHub。欢迎聊聊像素画、配色和静态网站。" />
+    <meta name="theme-color" content="#e7e3dc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="联系 · 像素笔记" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      (function () {
+        var saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("pixel-morandi") || "{}") || {};
+        } catch (e) {
+          saved = {};
+        }
+        var theme =
+          saved.theme ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dusk"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        if (saved.text) document.documentElement.setAttribute("data-text", saved.text);
+      })();
+    </script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body data-page="contact">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="progress" data-progress></div>
+    <canvas class="sparkle-layer" data-sparkles aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html">
+          <span class="brand__mark">
+            <img src="assets/img/mark.svg" width="48" height="32" alt="" />
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <span class="brand__tag" data-bind="owner.role">像素爱好者 · 前端玩家</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" data-nav aria-label="主导航"></nav>
+
+        <div class="header-tools">
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+            <span class="px-icon px-icon--sun" data-theme-glyph></span>
+          </button>
+          <button
+            class="icon-btn nav-toggle"
+            type="button"
+            data-nav-toggle
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="打开菜单"
+          >
+            <span class="px-icon px-icon--menu"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-head">
+        <div class="wrap">
+          <p class="eyebrow" data-bind="contact.eyebrow">CONTACT</p>
+          <h1 data-bind="contact.title">来打个招呼</h1>
+          <p class="lead" data-bind="contact.lead"></p>
+          <div class="row" style="margin-top: 24px">
+            <button class="btn" type="button" data-copy="snowwolf.sakura@gmail.com">
+              复制邮箱地址
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="grid grid--2" data-channels></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="grid grid--2" style="gap: 48px; align-items: start">
+            <div>
+              <p class="eyebrow">FAQ</p>
+              <h2>常见问题</h2>
+              <p class="lead">如果这里没写，直接发邮件问就好。</p>
+              <div data-terminal style="margin-top: 32px"></div>
+            </div>
+            <div data-faq></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__top">
+          <div class="site-footer__brand">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <p data-bind="owner.footerNote">用像素和莫兰迪色搭建。</p>
+          </div>
+          <div>
+            <div class="footer-title">导航</div>
+            <ul class="footer-links" data-footer-links></ul>
+          </div>
+          <div>
+            <div class="footer-title">找到我</div>
+            <ul class="footer-links" data-footer-social></ul>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <span
+            >© <span data-year>2026</span> <span data-bind="owner.name">cxp</span> ·
+            <span data-handle>@gitbycxp</span></span
+          >
+          <div class="footer-controls">
+            <div class="control-group">
+              <span class="control-group__label">主题</span>
+              <button class="toggle-btn" type="button" data-theme-toggle aria-label="切换主题">
+                <span data-theme-name>浅色</span>
+              </button>
+            </div>
+            <div class="control-group">
+              <span class="control-group__label">显示</span>
+              <button class="toggle-btn" type="button" data-text-toggle aria-pressed="false">
+                字号：标准
+              </button>
+              <button class="toggle-btn" type="button" data-crt-toggle aria-pressed="false">
+                扫描线
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

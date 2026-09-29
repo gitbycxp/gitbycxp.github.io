@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>走丢了 · 像素笔记</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#e7e3dc" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      (function () {
+        var saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("pixel-morandi") || "{}") || {};
+        } catch (e) {
+          saved = {};
+        }
+        var theme =
+          saved.theme ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dusk"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        if (saved.text) document.documentElement.setAttribute("data-text", saved.text);
+      })();
+    </script>
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body data-page="404">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <canvas class="sparkle-layer" data-sparkles aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html">
+          <span class="brand__mark">
+            <img src="assets/img/mark.svg" width="48" height="32" alt="" />
+          </span>
+          <span class="brand__text">
+            <span class="brand__name" data-bind="meta.siteName">像素笔记</span>
+            <span class="brand__tag" data-bind="owner.role">像素爱好者 · 前端玩家</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" data-nav aria-label="主导航"></nav>
+
+        <div class="header-tools">
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+            <span class="px-icon px-icon--sun" data-theme-glyph></span>
+          </button>
+          <button
+            class="icon-btn nav-toggle"
+            type="button"
+            data-nav-toggle
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="打开菜单"
+          >
+            <span class="px-icon px-icon--menu"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="lost">
+        <div class="wrap">
+          <p class="lost__code">404</p>
+          <h1>这一步踩空了</h1>
+          <p class="lead" style="margin: 0 auto 32px">
+            你要找的页面不在这个方格纸上。可能是链接写错了，或者它已经被搬走了。
+          </p>
+          <div class="row" style="justify-content: center">
+            <a class="btn" href="index.html">
+              <span>回到首页</span>
+              <span class="btn__arrow" aria-hidden="true">▸</span>
+            </a>
+            <a class="btn btn--ghost" href="projects.html">看看作品</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__bottom" style="border-top: 0; padding-top: 0">
+          <span
+            >© <span data-year>2026</span> <span data-bind="owner.name">cxp</span> ·
+            <span data-handle>@gitbycxp</span></span
+          >
+          <div class="footer-controls">
+            <div class="control-group">
+              <button class="toggle-btn" type="button" data-theme-toggle aria-label="切换主题">
+                <span data-theme-name>浅色</span>
+              </button>
+            </div>
+            <div class="control-group">
+              <button class="toggle-btn" type="button" data-text-toggle aria-pressed="false">
+                字号：标准
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
