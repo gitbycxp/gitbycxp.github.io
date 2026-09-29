@@ -1,0 +1,7 @@
+# 文本文件统一用 LF 存储，避免在不同系统上来回改行尾
+* text=auto eol=lf
+
+# 字体与图片按二进制处理
+*.woff2 binary
+*.png binary
+*.jpg binary
