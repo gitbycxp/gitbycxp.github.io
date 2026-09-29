@@ -1,0 +1,9 @@
+# 预览截图由 tools/shot.mjs 生成
+.preview/
+
+# 编辑器与系统
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+node_modules/

@@ -22,6 +22,11 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = 8791;
 const PAGES = ["index.html", "projects.html", "about.html", "contact.html", "404.html"];
 
+// node tools/check.mjs --base=https://example.github.io  可以直接检查线上站点
+const baseArg = process.argv.find((a) => a.startsWith("--base="));
+const REMOTE_BASE = baseArg ? baseArg.slice("--base=".length).replace(/\/$/, "") + "/" : null;
+const BASE = REMOTE_BASE || `http://127.0.0.1:${PORT}/`;
+
 const CHROME_CANDIDATES = [
   "C:/Program Files/Google/Chrome/Application/chrome.exe",
   "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
@@ -71,7 +76,7 @@ const server = createServer(async (req, res) => {
   }
 });
 
-await new Promise((r) => server.listen(PORT, "127.0.0.1", r));
+if (!REMOTE_BASE) { await new Promise((r) => server.listen(PORT, "127.0.0.1", r)); } else { try { server.close(); } catch (e) {} }
 
 /* ------------------------------------------------------------------ CDP */
 
@@ -223,6 +228,32 @@ const PROBE = `(function () {
       return n ? getComputedStyle(n).display !== "none" : null;
     })(),
     themeName: (document.querySelector("[data-theme-name]") || {}).textContent || null,
+    layout: (function () {
+      var pick = function (sel, prop) {
+        var n = document.querySelector(sel);
+        return n ? getComputedStyle(n)[prop] : null;
+      };
+      var scene = document.querySelector(".hero__art-inner img");
+      var grid = document.querySelector(".grid--3");
+      return {
+        bodyFont: pick("body", "fontSize"),
+        h2Font: (pick("h2", "fontFamily") || "").split(",")[0],
+        headerH: pick(".site-header__inner", "minHeight"),
+        cardBorder: pick(".card", "borderTopWidth"),
+        cardShadow: pick(".card", "boxShadow"),
+        scene: scene ? Math.round(scene.getBoundingClientRect().width) + "×" +
+          Math.round(scene.getBoundingClientRect().height) : null,
+        columns: grid ? getComputedStyle(grid).gridTemplateColumns.split(" ").length : null,
+        cardW: (function () {
+          var c = document.querySelector(".card");
+          return c ? Math.round(c.getBoundingClientRect().width) : null;
+        })(),
+        portrait: (function () {
+          var p = document.querySelector(".portrait__frame");
+          return p ? Math.round(p.getBoundingClientRect().width) : null;
+        })()
+      };
+    })(),
     visibleCards: (function () {
       var list = document.querySelectorAll(".card");
       var n = 0;
@@ -308,8 +339,8 @@ let failed = 0;
 
 for (const page of PAGES) {
   problems.length = 0;
-  const loaded = client.waitFor("Page.loadEventFired");
-  await client.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/${page}` });
+  const loaded = client.waitFor("Page.loadEventFired", 60000);
+  await client.send("Page.navigate", { url: BASE + page });
   await loaded;
   await sleep(900);
 
@@ -354,6 +385,12 @@ for (const page of PAGES) {
     `  字体 中文=${data.fonts.cjk} UI=${data.fonts.ui} 标题=${data.fonts.display}（${data.fonts.loaded} 个）` +
       ` · 技能条 ${data.barWidths.join(" ") || "无"}`
   );
+  const L = data.layout;
+  console.log(
+    `  版式 正文 ${L.bodyFont} · 标题字 ${L.h2Font} · 顶栏 ${L.headerH} · 卡片边框 ${L.cardBorder}` +
+      ` · 三栏 ${L.columns || "无"}${L.cardW ? "（卡片 " + L.cardW + "px）" : ""}` +
+      `${L.scene ? " · 风景 " + L.scene : ""}${L.portrait ? " · 头像框 " + L.portrait + "px" : ""}`
+  );
   highlights.forEach((line) => console.log("  ⚠ " + line));
 
   for (const action of ACTIONS[page] || []) {
@@ -394,8 +431,8 @@ await client.send("Emulation.setDeviceMetricsOverride", {
 
 for (const page of PAGES) {
   problems.length = 0;
-  const loaded = client.waitFor("Page.loadEventFired");
-  await client.send("Page.navigate", { url: `http://127.0.0.1:${PORT}/${page}` });
+  const loaded = client.waitFor("Page.loadEventFired", 60000);
+  await client.send("Page.navigate", { url: BASE + page });
   await loaded;
   await sleep(700);
 
@@ -481,5 +518,5 @@ console.log(
 );
 
 chrome.kill();
-server.close();
+try { server.close(); } catch (e) {}
 process.exit(0);
